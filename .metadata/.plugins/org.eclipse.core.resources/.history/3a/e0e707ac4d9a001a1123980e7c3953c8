@@ -1,0 +1,76 @@
+//============================================================================
+// Name        : Assignment.cpp
+// Author      : Nathan Jaggers
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <fstream>
+#include "StudentHT.h"
+using namespace std;
+
+void welcome();
+void goodbye();
+
+int main() {
+
+	//declarations
+	  int inputCount;
+	  int input;
+	  StudentInfo studentInput ;
+	  ifstream inFile ;
+
+	//welcome
+	  welcome();
+
+	//open file to create hash table(check for open)
+	  cout << "Opening insert file...\n" ;
+	  inFile.open("C:\\COMSC210\\Add-1.txt");
+	  if(!inFile.is_open()){
+		  cout << "There was something wrong opening up the file.\nPlease check and try again.";
+	  }
+
+	//insert data into hash table
+	  inFile >> inputCount ;
+	  cin.ignore(1000,'\n');
+	  while(inFile>>input)
+	  {
+		  studentInput.ID = input ;
+
+	  }
+
+	//close file
+	  inFile.close();
+
+	//print out hash table
+
+	//open file for searching in hash table(check for open)
+	  cout << "Opening search file...\n" ;
+	  	  inFile.open("C:\\COMSC210\\Search-1.txt");
+	  	  if(!inFile.is_open()){
+	  		  cout << "There was something wrong opening up the file.\nPlease check and try again.";
+	  	  }
+
+	//start statistics and begin searching
+
+	//end statistics and close file
+	  inFile.close();
+
+	//display statistics
+
+	//goodbye
+	  goodbye();
+
+	return 0;
+}
+
+void welcome(){
+	cout << "\nWelcome to Program 11!\n"
+		 << "=====================\n" ;
+}
+void goodbye(){
+	cout << "\n=====================\n"
+		 << "Thank you for using the program! Have a good day!" ;
+}

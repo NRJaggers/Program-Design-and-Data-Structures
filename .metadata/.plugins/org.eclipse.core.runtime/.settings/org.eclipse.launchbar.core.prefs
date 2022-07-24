@@ -1,0 +1,17 @@
+LaunchTargetManager/configs/Assignment\ 05N-\ Stacks.exe=org.eclipse.launchbar.core.launchTargetType.local\:Local
+LaunchTargetManager/configs/Sandbox.exe=org.eclipse.launchbar.core.launchTargetType.local\:Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:Assignment 9N- Heaps, Priority Ques, and Heap Sort.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 01N - Review Structures.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 01N - Review Structures_PartB.exe,org.eclipse.launchbar.core.descriptorType.default\:Sandbox.exe,org.eclipse.launchbar.core.descriptorType.default\:02-18_LinkedList.exe,org.eclipse.launchbar.core.descriptorType.default\:Recursion - Golomb Sequence.exe,org.eclipse.launchbar.core.descriptorType.default\:02-18_Doubly LinkedList.exe,org.eclipse.launchbar.core.descriptorType.default\:02-18_List _ Dummy Node.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 04N - Linked Lists.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 05N- Stacks and Queues.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 05N- Stacks.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 05N- Queues.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 06N- Recursion.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 02N- Classes and Pointers.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 03N - Templates.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 07N - Sorting Algorithms.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 08N - Trees.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 10N - Graphs.exe,org.eclipse.launchbar.core.descriptorType.default\:Assignment 11N - Hashing.exe
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:02-18_Doubly\ LinkedList.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:02-18_Doubly\ LinkedList.exe/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 01N\ -\ Review\ Structures.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 01N\ -\ Review\ Structures.exe/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 01N\ -\ Review\ Structures_PartB.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 02N-\ Classes\ and\ Pointers.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 06N-\ Recursion.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 07N\ -\ Sorting\ Algorithms.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Assignment\ 9N-\ Heaps,\ Priority\ Ques,\ and\ Heap\ Sort.exe/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Sandbox.exe/activeLaunchMode=run

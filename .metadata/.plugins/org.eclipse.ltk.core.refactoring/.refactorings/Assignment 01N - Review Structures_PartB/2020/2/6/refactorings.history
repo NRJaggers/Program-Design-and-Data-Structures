@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Assignment 01N - Review Structures_PartB/src/Assignment 01N - Review Structures_PartB.cpp.cpp&apos; to &apos;Assignment 01N - Review Structures_PartB.cpp&apos;" description="Rename resource &apos;Assignment 01N - Review Structures_PartB.cpp.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Assignment 01N - Review Structures_PartB.cpp.cpp" name="Assignment 01N - Review Structures_PartB.cpp" stamp="1580768772131" updateReferences="true"/>
+</session>

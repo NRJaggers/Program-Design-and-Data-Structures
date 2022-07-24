@@ -1,0 +1,79 @@
+//============================================================================
+// Name        : Assignment.cpp
+// Author      : Nathan Jaggers
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include "Graph.h"
+using namespace std;
+
+
+void welcome();
+void goodbye();
+
+int main()
+
+{
+	//declarations
+	  int start, finish ;
+	  string filePath ;
+	  Graph travelGraph;
+
+	//welcome
+	  welcome();
+
+	//get file path from user to create graph
+	  cout << "\nEnter the full path for the file "
+		   << "\nfrom which you would like to create a graph : " ;
+	  cin  >> filePath ; // example: C:\\COMSC210\\MinPath1.txt or C:\\COMSC210\\MinPath2.txt
+
+	//initialize graph from file
+	  if(travelGraph.initializeGraph(filePath))
+	  {
+
+	//print out vertices(name and number)
+	  //travelGraph.printVertices();
+	  //travelGraph.printEdges();
+	  travelGraph.printGraphInfo();
+
+	//get start and end vertex from user
+	  cout << "\nEnter a start vertex (as a number): " ;
+	  cin >> start ;
+	  cout << "\nEnter a end vertex (as a number): " ;
+	  cin >> finish ;
+
+	//can traverse graph through depth or breadth
+	  cout << "\nDepth first traversal : \n" ;
+	  travelGraph.depthFirst(start);
+
+	  cout << "\nBreadth first traversal : \n" ;
+	  travelGraph.breadthFirst(start);
+
+	//find minimum path between vertices and total cost
+	  travelGraph.MinPath(start,finish);
+
+	  }
+
+	//goodbye
+	  goodbye();
+
+	  for (int i = 0 ; i < 15; i++)
+	  	  {
+		  travelGraph.MinPath(2,i);
+	  	  }
+
+	return 0 ;
+}
+
+
+void welcome(){
+	cout << "\nWelcome to Program 10!\n"
+		 << "=====================\n" ;
+}
+void goodbye(){
+	cout << "\n=====================\n"
+		 << "Thank you for using the program! Have a good day!" ;
+}

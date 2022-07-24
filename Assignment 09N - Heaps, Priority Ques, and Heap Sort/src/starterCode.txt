@@ -1,0 +1,625 @@
+DEFINITIONS
+
+Max Heap is a heap in which the parent is always greater than all of its children.
+
+Min Heap is a heap in which the parent is always smaller than all of its children
+
+Array Based Max Heap is a max heap which is implemented using an array.
+
+Array Based Min Heap is a min heap which is implemented using an array.
+
+Max Heap Priority Queue is a priority queue which is a max heap before an enqueue or a dequeue operation is started. In carrying out any of these operations, its max heap property may be temporarily disturbed. 
+However, at the completion of each of these operation, the priority queue must be a max heap again.
+
+Min Heap Priority Queue is a priority queue which is a min heap before an enqueue or a dequeue operation is started. In carrying out any of these operations, its min heap property may be temporarily disturbed. 
+However, at the completion of each of these operation, the priority queue must be a min heap again.
+
+
+IMPLEMENTATION
+
+Implement the priority queue class using max heap array. The priority queue class would have functions: penque (the priority enque), pdeque (priority deque) and isEmpty.  These functions are described below:
+
+
+penqueue
+
+This method will be used to enqueue an item to the priority queue. This method will receive a customer record
+
+ as a parameter and queue it to the priority queue. The priority queue will be a miax heap before the method is called. During the operation, its max heap property may be temporarily disturbed. However, when the method returns,  the queue will be a max heap again.
+
+ 
+pdequeue
+
+Pre-condition: This method will be called only when the que is NOT empty.  
+
+This method will be used to deque an item from the priority queue. This method will receive no parameter, It will deque an item from the priority queue and return it to the caller. The queue will be a max heap before the method is called. During the operation, the queue's max heap property may be temporarily disturbed. However, when the method returns,  the queue will be a max heap again.
+
+
+isEmpty
+
+This method will return true or 1 if the queue is empty. Otherwise, it will return false or 0. This method can be called to ensure that the queue is not empty before calling the dequeue method above.
+
+ 
+ALGORITHM
+
+
+penqueue
+
+(The heap array is a max heap).
+
+Increase the length of the heap array by 1.
+
+Store the item to be enqueued to the newly added last element of the heap array.
+
+(The heap array is a max heap except that the newly added last element may have disturbed the max heap property).
+
+Call maxreheapifyUpward to maxreheapify the heap array.
+
+(The heap array is a max heap again).
+
+
+pdequeue
+
+(The heap array is a max heap).
+
+Save the contents of the first element of the heap array.
+
+(This element will be returned at the end of the method).
+
+Copy the contents of the last element of the array in the first element of the array.
+
+Decrease the length of the heap array by 1.
+
+(The heap array is a max heap except that the newly copied first element may have disturbed the max heap).
+
+Call maxreheapifyDownward to maxreheapify the heap array.
+
+(The heap array is a max heap again).
+
+Return the earlier saved first element of the heap array.
+
+
+CODE For Records
+
+ 
+struct RecType
+
+{
+
+  int priority;
+
+  char name[20];
+
+};
+
+struct NodeType
+
+{
+
+  int priority;
+
+  char name[20];
+
+  NodeType * next;
+
+};
+
+class pque
+
+{
+
+  private:
+
+    RecType x[100];
+
+  int lastIndex;
+
+  void maxreheapifyUpward(RecType x[], int lastIndex);
+
+  void maxreheapifyDownward(RecType x[], int lastIndex);
+
+  int findLargeChildIndex(int parentIndex, int lastIndex);
+
+  public:
+
+    pque();
+
+  void penque(RecType r);
+
+  RecType pdeque();
+
+  bool isEmpty();
+
+};
+
+CODE For Ints
+
+//The code below is for an int heap array.
+
+//Also this code doesn't use a class
+
+//Parts of the code are missing and is so indicated.
+
+//Modify this code so that it is for a record heap array.
+
+//Modify this code so that it is for class
+
+bool isEmpty();
+
+void penque(int x);
+
+int pdeque();
+
+void maxreheapifyUpward(int x[], int lastIndex);
+
+void maxreheapifyDownward(int x[], int lastIndex);
+
+int findLargeChildIndex(int parentIndex, int lastIndex);
+
+int lastIndex = -1;
+
+int x[100];
+
+int main()
+
+{
+
+  int n;
+
+  cout << "input number" << endl;
+
+  cin >> n;
+
+  while (n >= 0)
+
+  {
+
+    penque(n);
+
+    cout << "input number" << endl;
+
+    cin >> n;
+
+  }
+
+  while (!isEmpty())
+
+  {
+
+    n = pdeque();
+
+    cout << n << endl;
+
+  }
+
+  return 0;
+
+}
+
+bool isEmpty()
+
+{
+
+  if (lastIndex < 0)
+
+    return true;
+
+  else
+
+    return false;
+
+}
+
+void penque(int n)
+
+{
+
+  lastIndex++;
+
+  x[lastIndex] = n;
+
+  maxreheapifyUpward(x, lastIndex);
+
+}
+
+int pdeque()
+
+{
+
+  int returnValue = x[0];
+
+  x[0] = x[lastIndex];
+
+  lastIndex--;
+
+  maxreheapifyDownward(x, lastIndex);
+
+  return returnValue;
+
+}
+
+//maxreheapifyUpward
+
+//The code below is for an int heap array.
+
+//Modify this method so that it is for a record heap array.
+
+//Also fill in the unfilled part of the code.
+
+void maxreheapifyUpward(int x[], int lastIndex)
+
+{
+
+  int parentIndex;
+
+  int childIndex = lastIndex;
+
+  while (childIndex > 0)
+
+  {
+
+    parentIndex = childIndex / 2;
+
+    if (x[childIndex] <= x[parentIndex])
+
+      break;
+
+    else
+
+    {
+
+      //swap values at child and at parent.
+
+      //Update child to parent
+
+      childIndex = parentIndex;
+
+    }
+
+  }
+
+}
+
+//maxreheapifyDownward
+
+//The algorithm below is for an int heap array,
+
+//Modify this method so that it is for a record heap array.
+
+//Also fill in the unfilled part of the code.
+
+void maxreheapifyDownward(int x[], int lastIndex)
+
+{
+
+  int parentIndex = 0;
+
+  int largeChildIndex;
+
+  while (parentIndex < lastIndex)
+
+  {
+
+    largeChildIndex = findLargeChildIndex(parentIndex, lastIndex);
+
+    if (largeChildIndex < 0 || x[largeChildIndex] <= x[parentIndex])
+
+      break;
+
+    else
+
+    {
+
+      //swap value at parentIndex with value at largeChildIndex
+
+      //update parentIndex
+
+      parentIndex = largeChildIndex;
+
+    }
+
+  }
+
+}
+
+int findLargeChildIndex(int parentIndex, int lastIndex)
+
+{
+
+  int lChildIndex = (2 * parentIndex) + 1;
+
+  int rChildIndex = (2 * parentIndex) + 2;
+
+  //case both children exist
+
+  if (rChildIndex <= lastIndex && lChildIndex <= lastIndex)
+
+  {
+
+    //compare value at rChildIndex and at lChildIndex
+
+    //return the index where the value is larger
+
+  }
+
+  //case only left child exist
+  else if (lChildIndex <= lastIndex)
+
+  {
+
+    return lChildIndex;
+
+  }
+
+  //case both children missing
+  else
+
+  {
+
+    return -1;
+
+  }
+
+}
+
+Code with a Record As In Assignment
+
+#include <iostream>
+
+
+using namespace std;
+
+class pque
+
+{
+
+  public:
+
+    struct RecType
+
+  {
+
+    int priority;
+
+    string name;
+
+  };
+
+  RecType x[100];
+
+  int lastIndex;
+
+  RecType userInput;
+
+  private:
+
+    void maxreheapifyUpward(RecType x[], int lastIndex)
+
+  {
+
+    int parentIndex;
+
+    int childIndex = lastIndex;
+
+    while (childIndex > 0)
+
+    {
+
+      parentIndex = childIndex / 2;
+
+      if (x[childIndex].priority <= x[parentIndex].priority)
+
+        break;
+
+      else
+
+      {
+
+        ///swap values at child and at parent.
+
+        RecType tempIndex = x[childIndex];
+
+        x[childIndex] = x[parentIndex];
+
+        x[parentIndex] = tempIndex;
+
+        ///Update child to parent
+
+        childIndex = parentIndex;
+
+      }
+
+    }
+
+  }
+
+  void maxreheapifyDownward(RecType x[], int lastIndex)
+
+  {
+
+    int parentIndex = 0;
+
+    int largeChildIndex;
+
+    ///cout << "hi maxreheapifyDownward" << endl;
+
+    while (parentIndex < lastIndex)
+
+    {
+
+      ///cout << "hi maxreheapifyDownward 2" << endl;
+
+      largeChildIndex = findLargeChildIndex(x, parentIndex, lastIndex);
+
+      if (largeChildIndex < 0 || x[largeChildIndex].priority <= x[parentIndex].priority)
+
+        break;
+
+      else
+
+      {
+
+        ///swap value at parentIndex with value at largeChildIndex
+
+        RecType temp = x[parentIndex];
+
+        x[parentIndex] = x[largeChildIndex];
+
+        x[largeChildIndex] = temp;
+
+        ///update parentIndex
+
+        parentIndex = largeChildIndex;
+
+      }
+
+    }
+
+  }
+
+  int findLargeChildIndex(RecType x[], int parentIndex, int lastIndex)
+
+  {
+
+    int lChildIndex = (2 * parentIndex) + 1;
+
+    int rChildIndex = (2 * parentIndex) + 2;
+
+    //case both children exist
+
+    if (rChildIndex <= lastIndex && lChildIndex <= lastIndex)
+
+    {
+
+      ///compare value at rChildIndex and at lChildIndex
+
+      ///return the index where the value is smaller
+
+      if (x[rChildIndex].priority > x[lChildIndex].priority)
+
+      {
+
+        return rChildIndex;
+
+      } else
+
+      {
+
+        return lChildIndex;
+
+      }
+
+    }
+
+    ///case only left child exist
+    else if (lChildIndex <= lastIndex)
+
+    {
+
+      return lChildIndex;
+
+    }
+
+    ///case both children missing
+    else
+
+    {
+
+      return -1;
+
+    }
+
+  }
+
+  public:
+
+    pque() {
+      lastIndex = -1;
+    }
+
+  void penque(int p, string n)
+
+  {
+
+    lastIndex++;
+
+    x[lastIndex].priority = p;
+
+    x[lastIndex].name = n;
+
+    maxreheapifyUpward(x, lastIndex);
+
+  }
+
+  RecType pdeque()
+
+  {
+
+    RecType returnValue = x[0];
+
+    x[0] = x[lastIndex];
+
+    lastIndex--;
+
+    maxreheapifyDownward(x, lastIndex);
+
+    return returnValue;
+
+  }
+
+  bool isEmpty()
+
+  {
+
+    if (lastIndex < 0) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+};
+
+int main()
+
+{
+
+  pque recordList;
+
+  while (recordList.userInput.priority >= 0)
+
+  {
+
+    cout << "input number" << endl;
+
+    cin >> recordList.userInput.priority;
+
+    if (recordList.userInput.priority == -1)
+
+    {
+
+      break;
+
+    }
+
+    cout << "input name" << endl;
+
+    cin >> recordList.userInput.name;
+
+    recordList.penque(recordList.userInput.priority, recordList.userInput.name);
+
+  }
+
+  while (!recordList.isEmpty())
+
+  {
+
+    recordList.userInput = recordList.pdeque();
+
+    cout << recordList.userInput.priority << " " << recordList.userInput.name << endl;
+
+  }
+
+  return 0;
+
+}

@@ -1,0 +1,16 @@
+21:44:18 **** Incremental Build of configuration Debug for project Assignment 07N - Sorting Algorithms ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\Assignment 07N - Sorting Algorithms.o" "..\\src\\Assignment 07N - Sorting Algorithms.cpp" 
+..\src\Assignment 07N - Sorting Algorithms.cpp: In function 'int main()':
+..\src\Assignment 07N - Sorting Algorithms.cpp:26:8: warning: unused variable 'random' [-Wunused-variable]
+    int random ;
+        ^~~~~~
+In file included from ..\src\Assignment 07N - Sorting Algorithms.cpp:12:
+..\src\MySortableArray.h: In member function 'type MySortableArray<type>::getEntry(int) [with type = int]':
+..\src\MySortableArray.h:185:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+g++ -o "Assignment 07N - Sorting Algorithms.exe" "src\\Assignment 07N - Sorting Algorithms.o" 
+
+21:44:19 Build Finished. 0 errors, 2 warnings. (took 1s.507ms)
+

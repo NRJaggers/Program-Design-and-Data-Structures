@@ -1,0 +1,5 @@
+15:41:51 **** Clean-only build of configuration Debug for project 02-18_Doubly LinkedList ****
+rm -rf "src/02-18_Doubly LinkedList.o" "src/02-18_Doubly LinkedList.d" "02-18_Doubly LinkedList.exe" 
+
+15:41:51 Build Finished. 0 errors, 0 warnings. (took 275ms)
+

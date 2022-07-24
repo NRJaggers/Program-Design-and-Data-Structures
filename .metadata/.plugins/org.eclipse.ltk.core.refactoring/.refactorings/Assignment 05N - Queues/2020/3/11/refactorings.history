@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Assignment 05N- Queues/src/stackList.h&apos; to &apos;stackList1.h&apos;" description="Rename resource &apos;stackList.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/stackList.h" name="stackList1.h" stamp="1583895985020" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Assignment 05N- Queues/src/stackList1.h&apos; to &apos;queueList.h&apos;" description="Rename resource &apos;stackList1.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/stackList1.h" name="queueList.h" stamp="1583896040365" updateReferences="true"/>
+</session>

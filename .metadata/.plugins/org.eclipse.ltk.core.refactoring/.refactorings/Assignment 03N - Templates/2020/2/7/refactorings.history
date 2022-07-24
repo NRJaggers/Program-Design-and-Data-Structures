@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Assignment 03N - Templates/src/DynamicStringArray.h&apos; to &apos;DynamicArray.h&apos;" description="Rename resource &apos;DynamicStringArray.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/DynamicStringArray.h" name="DynamicArray.h" stamp="1581466124802" updateReferences="true"/>
+</session>

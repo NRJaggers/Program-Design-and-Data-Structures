@@ -1,0 +1,157 @@
+/*
+ * StudentHT.h
+ *
+ *  Created on: May 16, 2020
+ *      Author: Nathan Jaggers
+ */
+
+#include <iostream>
+using namespace std;
+
+const int MAX = 128;
+
+#ifndef STUDENTHT_H_
+#define STUDENTHT_H_
+
+struct StudentInfo{
+	//member variables
+	  int ID ; 				//student ID
+	  string firstName ; 	//student's first name
+	  string lastName ; 	//student's last name
+
+	  StudentInfo(){
+		  ID = 0;
+		  firstName = "" ;
+		  lastName = "" ;
+	  }
+};
+
+struct NodeStudent{
+	//member variables
+	  StudentInfo student ; //structure to hold student info
+	  NodeStudent* link ; //pointer to another student node
+
+	  NodeStudent(){
+		  link = nullptr;
+	  }
+
+	  NodeStudent(StudentInfo construct){
+		  	student.ID = construct.ID;
+		  	student.firstName = construct.firstName;
+		  	student.lastName = construct.lastName;
+	  		link = nullptr;
+	  	  }
+};
+
+class StudentHT
+{
+private:
+	//member variables
+	NodeStudent** hashTable ;
+	int searchCountID ;
+	int searchCountNode ;
+	int searchNode_ID ;
+
+public:
+	//constructor
+	  StudentHT();
+
+	//member functions
+	  int hashFunction(int);
+	  void insert(StudentInfo);
+	  StudentInfo search(StudentInfo);
+	  void displayTable();
+	  void startStatistics();
+	  void endStatistics();
+	  void displayStatistics();
+};
+//constructor
+  StudentHT :: StudentHT(){
+	  //create table to hold info
+	  hashTable = new NodeStudent*[MAX];
+
+	  //initialize table to null values
+	  for(int i = 0; i < MAX; i++){
+		  hashTable[i] = nullptr ;
+	  }
+
+  }
+
+//member functions
+  int StudentHT :: hashFunction(int key){
+	  return key % MAX ;
+  }
+
+  void StudentHT :: insert(StudentInfo input){
+	  //create pointers to hold position in open table
+	    NodeStudent* prev = nullptr;
+	    NodeStudent* current = nullptr;
+
+	  //create index from hash function
+	    int index = hashFunction(input.ID) ;
+
+	  //initialize current pointer and find spot for input
+	    current = hashTable[index];
+
+	    while((current != nullptr)){
+	    	prev = current;
+	    	current = current->link;
+	    }
+
+	  //if current is null, add input otherwise update entry
+	    if (current == nullptr){
+
+	    	NodeStudent* entry = new NodeStudent(input);
+
+	    	if(prev == nullptr){
+	    		hashTable[index] = entry;
+	    	}
+	    	else{
+	    		prev->link = entry;
+	    	}
+
+	    }
+	    else{
+	    	current->student.firstName = input.firstName;
+	    	current->student.lastName = input.lastName;
+	    }
+
+  }
+
+  StudentInfo StudentHT :: search(StudentInfo){
+
+  }
+  void StudentHT :: displayTable(){
+	  NodeStudent* current;
+
+	  for (int i = 0; i < MAX; i++){
+		  if (hashTable[i] != nullptr)
+		  {
+			  current = hashTable[i] ;
+			  while(current != nullptr){
+				  cout << "Hash value: " << i << endl;
+				  cout << "\t" << current->student.ID << " : "
+					   << current->student.firstName << current->student.lastName << endl ;
+				  current = current->link ;
+			  }
+
+		  }
+	  }
+  }
+  void StudentHT :: startStatistics(){
+	  searchCountID = 0 ;
+	  searchCountNode = 0 ;
+  }
+
+  void StudentHT :: endStatistics(){
+	  searchNode_ID = searchCountNode/searchCountID ;
+  }
+
+  void StudentHT :: displayStatistics(){
+	  cout << "Number of IDs searched : " << searchCountID << endl ;
+	  cout << "Number of Nodes searched : " << searchCountNode << endl ;
+	  cout << "Number of Nodes searched per IDs searched : " << searchCountNode << endl ;
+  }
+
+
+#endif /* STUDENTHT_H_ */

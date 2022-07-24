@@ -1,0 +1,459 @@
+/*
+ * Graph.h
+ *
+ *  Created on: May 12, 2020
+ *      Author: Nathan Jaggers
+ */
+#include <iostream>
+#include <fstream>
+#include <queue>
+using namespace std;
+
+#ifndef GRAPH_H_
+#define GRAPH_H_
+
+//max amount of vertices
+	const int MAX = 20 ;
+
+struct PathInfo {
+    int dist; 		//accumulated distance from the start vertex to this vertex.
+
+    int path[MAX]; 	//An array containing a list of vertices along the path
+    				//from the start vertex to this vertex.
+
+    int pathlen; 	//The length of the occupied part of the above array i.e.
+    				//counter for how many spots we have used
+};
+struct PathNode {
+	PathInfo pathDetails ; //PathInfo object
+	PathNode * link; //Link to the next item node.
+};
+class PathPriorityQue {
+    private:
+		PathNode * head; //
+		PathNode * tail;
+    public:
+		PathPriorityQue();
+    void Enque(PathInfo r);
+    void dequeue(PathInfo & rec);
+    int isEmpty();
+    void penque(PathInfo r);
+};
+PathPriorityQue::PathPriorityQue() {
+    head = NULL;
+    tail = NULL;
+}
+void PathPriorityQue::penque(PathInfo r) {
+    //Create an node
+		PathNode * newPtr = new PathNode;
+
+    //fill up the node
+		newPtr -> pathDetails.dist = r.dist;
+
+		for (int i = 0; i < 20; i++)
+		  newPtr -> pathDetails.path[i] = r.path[i];
+
+		newPtr -> pathDetails.pathlen = r.pathlen;
+
+		newPtr -> link = NULL;
+    //Link the entry;
+		//case: empty insertion
+		//case: head insertion
+		//case: mid and end insertion
+
+    //case: empty list
+		if (head == NULL) {
+			head = newPtr;
+		}
+    //case: head insertion
+		else if (r.dist < head -> pathDetails.dist) {
+			newPtr -> link = head;
+			head = newPtr;
+		}
+    //case: mid and end insertion:
+		else {
+			//use the cur to locate the point of insertion
+			//let prev walk behind it.
+			PathNode * cur, * prev;
+			for (prev = head, cur = head -> link; cur != NULL; prev = prev -> link, cur = cur -> link) {
+				if (newPtr -> pathDetails.dist < cur -> pathDetails.dist)
+					break;
+			}
+	//do the insertion using prev
+	newPtr -> link = prev -> link;
+	prev -> link = newPtr;
+    }
+}
+//pre: que is NOT empty
+void PathPriorityQue::dequeue(PathInfo & rec) {
+	if (!isEmpty()){
+		//fill out the rec using head.
+		rec.dist = head -> pathDetails.dist;
+		for (int i = 0; i < 20; i++) {
+			rec.path[i] = head -> pathDetails.path[i];
+		}
+		rec.pathlen = head -> pathDetails.pathlen;
+		//Remove the node
+		head = head -> link;
+		//Test to see if the que became empty after removal
+		//In that case, make sure to set the tail to NULL
+		if (head == NULL)
+			tail = NULL;
+	}
+}
+int  PathPriorityQue::isEmpty() {
+    return (head == NULL && tail == NULL) ? true : false;
+}
+
+//creating a non-directed graph
+class Graph {
+    private:
+		//graph members
+        string vertices[MAX];
+        int edges[MAX][MAX];
+        int vSize;
+
+        //traversal members
+        bool visited[MAX];
+        queue<int> queueBT ; //breadth traversal queue
+        void dTraversal(int);
+
+    public:
+    //Constructors
+        Graph();
+        Graph(string);
+
+    //Accessors
+        void printVertices();
+        void printEdges();
+        void printGraphInfo();
+        void printGraphGrid();
+		void breadthFirst(int);
+		void depthFirst(int);
+
+    //Mutators
+		void addVertex(string vertex);
+		void addEdge(int fromV, int toV, int weight);
+		bool initializeGraph(string);
+		void getAdjacent(int vertex, queue<int>&);
+		void MinPath(int from, int to);
+};
+//================
+//**Constructors**
+//================
+	Graph :: Graph(){
+	    vSize = 0;
+	    for (int i = 0; i < MAX; i++) {
+	    	vertices[i] = "" ;
+	        for (int j = 0; j < MAX; j++)
+	            edges[i][j] = 0;
+	    }
+	}
+
+	Graph :: Graph(string path){
+		initializeGraph(path);
+	}
+
+//================
+//**Accessors**
+//================
+    void Graph :: printVertices(){
+    	for (int i = 0; i < vSize; i++)
+    	{
+    		cout << "Vertex " << i <<" : " << vertices[i] << endl ;
+    	}
+    }
+
+    void Graph :: printEdges(){
+    	//declarations
+    	int printCount = 1 ;
+
+    	//explain output
+    	cout << "Edges connecting vertices\n(Vert) <=> (Vert) : (Weight)\n" ;
+
+    	//print edges
+    	for (int i = 0; i < vSize; i++)
+    	{
+    		printCount = 0 ;
+    		for (int j = 0; j < vSize; j++)
+    		{
+    			if (edges[i][j] != 0){
+    				cout << i << " <=> " << j << " : " << edges[i][j] << "\t" ;
+    				printCount++;
+    			}
+
+    		}
+    		if(printCount > 0)
+    		   cout << endl ;
+    	}
+    }
+
+    void Graph :: printGraphInfo(){
+    	for (int i = 0; i < vSize; i++)
+    	    	{
+    	    		cout << "\nVertex " << i <<" : " << vertices[i]
+    	    		     << "\nadjacent to  : \n" ;
+    	    		for (int j = 0; j < vSize; j++)
+    	    		{
+    	    			if (edges[i][j] != 0)
+    	    				cout << j << "\t" ;
+
+    	    		}
+    	    		cout << "\nwith weights : \n" ;
+    	    		for (int j = 0; j < vSize; j++)
+					{
+						if (edges[i][j] != 0)
+							cout << edges[i][j] << "\t" ;
+
+					}
+    	    	}
+    }
+
+    void Graph :: printGraphGrid(){
+    	cout << "\nGrid representation of Graph : \n\t" ;
+    	for (int g = 0; g < vSize; g++){
+    		cout << g << "\t" ;
+    	}
+    	cout << endl ;
+    	for (int i = 0; i < vSize; i++){
+    		cout << i << "\t" ;
+    		for (int j = 0; j < vSize; j++)
+					{
+							cout << edges[i][j] << "\t" ;
+
+					}
+    		 cout << endl ;
+    	    	}
+
+    }
+
+	void Graph :: breadthFirst(int startVert){
+		//reset visited to false
+		for (int i = 0; i < vSize; i++){
+			visited[i] = {false};
+		}
+		//set up initial conditions
+		  int currentVert ;
+		  queueBT.push(startVert);
+		  visited[startVert]= true ;
+
+		//go through layers of graph
+		  while(!queueBT.empty()){
+			  currentVert = queueBT.front();
+			  queueBT.pop();
+			  cout << "At vertex " << currentVert <<" : "<< vertices[currentVert] << endl;
+			  //look at edges and find next vertex
+				for (int j = 0; j< vSize; j++){
+					if((edges[currentVert][j] > 0) && (!visited[j])){
+						visited[j]= true ;
+						queueBT.push(j);
+					}
+				}
+		  }
+	}
+
+	void Graph :: depthFirst(int startVert){
+		//reset visited to false
+		for (int i = 0; i < vSize; i++){
+			visited[i] = {false};
+		}
+		//call recursive traversal
+		dTraversal(startVert);
+	}
+
+	void Graph :: dTraversal(int currentVert){
+		if (visited[currentVert] == true)
+			return; //we have already been here
+		else{
+			//mark as visited and print out contents
+			visited[currentVert] = true ;
+			cout << "At vertex " << currentVert <<" : "<< vertices[currentVert] << endl;
+			//look at edges and find next vertex
+			for (int j = 0; j< vSize; j++){
+				if(edges[currentVert][j] > 0){
+					dTraversal(j) ;
+				}
+			}
+		}
+	}
+
+//================
+//**Mutators**
+//================
+	void Graph :: addVertex(string vertex){
+		//add the next vertex at the next index in the array
+		    vertices[vSize] = vertex;
+		    vSize++;
+	}
+
+	void Graph :: addEdge(int fromV, int toV, int weight){
+	    //set to weight the appropriate element in the matrix.
+	    //Since it is non-directed graph.
+	    //Set to weight the other corresponding element to 1
+	    edges[fromV][toV] = weight;
+	    edges[toV][fromV] = weight;
+	}
+
+	bool Graph :: initializeGraph(string path){
+		//create file stream object and check if open
+		ifstream inFile(path) ;
+		if(!inFile.is_open())
+		{
+			cout << "Error opening file.\nPlease check and rerun." ;
+			return false;
+		}
+
+		//declarations
+		int vertNum, startVert, endVert, weight;
+		string vertName;
+
+		//read data from file and input data
+	    inFile >> vertNum;
+	    while (vertNum >= 0) {
+	    	getline(inFile,vertName);
+
+	        //cout << vertNum << "\t" << vertName << endl ;//trouble shooting
+	        //add the vertex to the graph
+	        addVertex(vertName);
+	        inFile >> vertNum;
+	    }
+
+	    inFile >> startVert;
+	    while (startVert >= 0) {
+	    	inFile >> endVert;
+	    	inFile >> weight;
+	    	//cout << startVert << "\t" << endVert << "\t" << weight <<  endl ; //trouble shooting
+	        //add the vertex to the graph
+	        //register the edge in edges matrix.
+	        addEdge(startVert, endVert, weight);
+	        inFile >> startVert;
+	    }
+
+	    return true ;
+
+	}
+
+	void Graph :: getAdjacent(int vertex, queue<int>& adjVerts){
+		//Any vertex to which I have an edge present is my adjacent vertex.
+		//This function take the given vertex and finds all the adjacent ones to it
+		//Then for all vertices found, they are pushed/enqued on the queue.
+		  for (int i = 0; i < vSize; i++) {
+		        if (edges[vertex][i] > 0)
+		        	adjVerts.push(i);
+		    }
+	}
+
+	void Graph :: MinPath(int from, int to){
+		//check if vertices are in range
+		  while((from < 0) or (from > vSize)){
+			  cout << "Start vertex is out of bounds.\n"
+				   << "Please re-enter: " ;
+			  cin  >> from;
+		  }
+		  while((to < 0) or (to > vSize)){
+			  cout << "End vertex is out of bounds.\n"
+				   << "Please re-enter: " ;
+			  cin  >> to;
+		  }
+		//declarations
+		  PathPriorityQue pathQueue;  	//ItemQue is a priority queue that queues ItemType items.
+		  queue<int> adjVertQ;  //A regular queue that queues ints that is used to store adjacent vertices.
+		  PathInfo pathDetails;
+
+		  int p_vertex; 		//parent vertex # (i.e. the vertex just dequeued).
+		  int p_dist; 			//total distance of the parent vertex from the start vertex.
+		  int p_pathlen; 		//the length of the occupied part of the path array i.e.
+
+		  int adjVert;           //a vertex
+		  int marked[20] = {0}; //array to keep track of which vertices are marked all set to zero
+
+//		  //unmark all vertices.
+//		  for (int i = 0; i < 20; i++)
+//			  marked[i] = 0;
+
+		  //prepare the first item to be queued.
+		  //Initialize the path array to be all zeros.
+		  for (int i = 0; i < 20; i++)
+			  pathDetails.path[i] = 0;
+		  //set the distance of the start vertex to the start vertex to be 0.
+		  pathDetails.dist = 0; //its distance from from start vertex.
+		  //set the path of the start vertex to the start vertex to contain
+		  //the start vertex.
+		  pathDetails.path[0] = from; //first entry in the vertex array list.
+		  //set the path length to be 1 because there is only one vertex in
+		  //the path.
+		  pathDetails.pathlen = 1;
+		  //enque the item in the priority queue
+		  //we enque this to get the algorithm started
+		  //we will soon deque it and then enque its adjacents (i.e.children).
+		  pathQueue.penque(pathDetails);
+		  //start the deque/enque loop
+		  while (!(pathQueue.isEmpty())) {
+			  //Deque the item.
+			  pathQueue.dequeue(pathDetails);
+			  //break if target is reached.
+			  if (pathDetails.path[pathDetails.pathlen - 1] == to)
+				  break;
+			  //Save its values (call them parent values. These will be needed
+			  //to generate (child) next level items
+			  //For this purpose,
+			  //Save the distance of this vertex from the start vertex.
+			  //Save the vertex number of this vertex. This vertex is the
+			  //last vertex in the path list.
+			  //Save the path length.
+			  //We save them here because the variable item will be reused
+			  //preparing a next level item.
+			  p_dist = pathDetails.dist;
+			  p_vertex = pathDetails.path[pathDetails.pathlen - 1];
+			  p_pathlen = pathDetails.pathlen;
+			  //if the item is not yet marked. find the next level items.
+			  if (marked[pathDetails.path[pathDetails.pathlen - 1]] == 0) {
+				  //mark the item
+				  marked[pathDetails.path[pathDetails.pathlen - 1]] = 1;
+				  //Find the next level vertices. receive them in an int que
+				  //Call method findAdj and pass it an int queue.
+				  //findAdj method will return list of adjacent (child)
+				  //vertices in the int queue passed to it.
+				  //findAdj (item.path[item.pathlen-1], adjq);
+				  getAdjacent(pathDetails.path[pathDetails.pathlen - 1], adjVertQ);
+				  //enque next level items in the priority que
+				  while (!adjVertQ.empty()) {
+					  //deque a next level (i.e. child) vertex
+					  //the vertix number of one of the next level vertices
+					  // will be returned in an int vertex
+					  adjVert = adjVertQ.front() ;
+					  adjVertQ.pop() ;
+					  //if the next level vertix is not marked.
+					  //Prepare an item for it and
+					  //enque the item in the priority queue
+					  //Use the same item variable as above.
+					  //But modify it as below.
+					  if (marked[adjVert] == 0) {
+						  //prepare an item for it by
+						  //reusing the item variable.
+						  //calculate its accumulated distance.
+						  pathDetails.dist = p_dist + edges[p_vertex][adjVert];
+						  //add the vertex to the path list in the item
+						  pathDetails.path[p_pathlen] = adjVert;
+						  //update the length of the used verix array list
+						  pathDetails.pathlen = p_pathlen + 1;
+						  //enque the item in the priority que
+						  pathQueue.penque(pathDetails);
+					  }
+				  }
+			  }
+		  }
+		  //write code here to display the item
+
+		  //display the target vertex distance from the start vertex.
+		  //display the path from the start vertex to the target vertex.
+		  cout << "Minimum distance from " << vertices[from] << " to " << vertices[to] << " is " << pathDetails.dist << endl;
+		  cout << "path:" << endl;
+		  for (int i = 0; i < pathDetails.pathlen; i++) {
+			  cout << vertices[pathDetails.path[i]] << endl;
+		  }
+
+
+	}
+
+#endif /* GRAPH_H_ */

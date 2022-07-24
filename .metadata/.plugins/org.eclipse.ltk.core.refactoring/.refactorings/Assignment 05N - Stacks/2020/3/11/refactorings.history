@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Assignment 05N- Stacks/src/Nodell.h&apos; to &apos;NodeLL.h&apos;" description="Rename resource &apos;Nodell.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Nodell.h" name="NodeLL.h" stamp="1583862947341" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Assignment 05N- Stacks/src/NodeLL.h&apos; to &apos;stackList.h&apos;" description="Rename resource &apos;NodeLL.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/NodeLL.h" name="stackList.h" stamp="1583863696218" updateReferences="true"/>
+</session>
